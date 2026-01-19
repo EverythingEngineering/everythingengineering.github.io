@@ -1,0 +1,51 @@
+# Site settings
+title: Everything Engineering
+description: Research, development, and innovation hub for all engineering divisions.
+baseurl: ""
+url: "https://everythingengineering.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  research:
+    output: true
+    permalink: /research/:path/
+  news:
+    output: true
+    permalink: /news/:year/:month/:day/:title/
+  products:
+    output: true
+    permalink: /products/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "research"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "news"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "products"
+    values:
+      layout: "page"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md

@@ -1,0 +1,12 @@
+<nav class="navigation">
+    <ul>
+        <li><a href="{{ '/products.html' | relative_url }}" {% if page.url contains 'products' %}class="active" {% endif
+                %}>Products</a></li>
+        <li><a href="{{ '/research.html' | relative_url }}" {% if page.url contains 'research' %}class="active" {% endif
+                %}>Research</a></li>
+        <li><a href="{{ '/news.html' | relative_url }}" {% if page.url contains 'news' %}class="active" {% endif %}>News</a>
+        </li>
+        <li><a href="{{ '/services.html' | relative_url }}" {% if page.url contains 'services' %}class="active"
+                {% endif %}>Services</a></li>
+    </ul>
+</nav>
