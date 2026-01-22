@@ -35,7 +35,53 @@ title: Products
             // Optional: Add the logo if available. 
             let logoHtml = '';
             if (product.product_logo) {
-                logoHtml = `<div class="product-quick-links" style="margin-bottom: 10px;"><img src="${product.product_logo}" alt="${product.title} logo" style="height: 48px; width: auto;"></div>`;
+                logoHtml = `<div class="product-logo-container"><img src="${product.product_logo}" alt="${product.title} logo" class="product-card-logo"></div>`;
+            }
+
+            // Determine division based on URL
+            let divisionHtml = '';
+            const divisions = {
+                'codexfabrica.github.io': {
+                    name: 'CodexFabrica',
+                    logo: 'https://codexfabrica.github.io/assets/images/favicon.svg'
+                },
+                'deusschutzaedes.github.io': {
+                    name: 'Deus Schutz Aedes',
+                    logo: 'https://deusschutzaedes.github.io/assets/images/favicon.svg'
+                },
+                'wissenmachina.github.io': {
+                    name: 'Wissen Machina',
+                    logo: 'https://wissenmachina.github.io/assets/images/favicon.svg'
+                },
+                'luxscientia.github.io': {
+                    name: 'Lux Scientia',
+                    logo: 'https://luxscientia.github.io/assets/images/favicon.svg'
+                },
+                'racore.github.io': {
+                    name: 'Ra Core',
+                    logo: 'https://racore.github.io/assets/images/favicon.svg'
+                },
+                'aleaicr.github.io': {
+                    name: 'AICV',
+                    logo: 'https://aleaicr.github.io/assets/images/favicon.svg'
+                }
+            };
+
+            let foundDivision = null;
+            for (const domain in divisions) {
+                if (product.url && product.url.includes(domain)) {
+                    foundDivision = divisions[domain];
+                    break;
+                }
+            }
+
+            if (foundDivision) {
+                divisionHtml = `
+                    <div class="division-indicator">
+                        <img src="${foundDivision.logo}" alt="${foundDivision.name} logo" class="division-logo">
+                        <span class="division-name">${foundDivision.name}</span>
+                    </div>
+                `;
             }
 
             const titleStyle = "margin: 0; font-size: 34px; font-weight: 400; font-family: 'Roboto', sans-serif;";
@@ -47,6 +93,7 @@ title: Products
                     <h1 style="${titleStyle}">${product.title}</h1>
                 </div>
                 <p class="product-tagline" style="${taglineStyle}">${product.tagline || product.description}</p>
+                ${divisionHtml}
             `;
 
             return card;

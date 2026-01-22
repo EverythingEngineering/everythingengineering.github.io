@@ -501,17 +501,71 @@ a:hover {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 24px;
+    padding-bottom: 60px;
+    /* Space for division indicator */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     text-decoration: none !important;
     color: inherit !important;
+    min-height: 200px;
 }
 
 .product-card:hover {
     border-color: var(--link-color);
     box-shadow: 0 12px 30px -10px rgba(9, 105, 218, 0.3);
     transform: translateY(-6px) scale(1.01);
+}
+
+.division-indicator {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.product-card:hover .division-indicator {
+    opacity: 1;
+}
+
+.division-logo {
+    width: 18px;
+    height: 18px;
+}
+
+.division-name {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.product-logo-container {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+}
+
+.product-card-logo {
+    height: 48px;
+    width: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.dark-mode .product-card-logo {
+    /* Subtle glow/shadow to ensure blue is visible on dark bg */
+    filter: drop-shadow(0 0 4px rgba(9, 105, 218, 0.2));
+}
+
+.product-card:hover .product-card-logo {
+    opacity: 1;
+    transform: scale(1.05);
 }
 
 .dark-mode .product-card:hover {
@@ -951,7 +1005,7 @@ a:hover {
     display: inline-flex;
     align-items: center;
     text-decoration: none !important;
-    color: var(--text-color) !important;
+    color: var(--text-color);
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 34px;
@@ -965,12 +1019,14 @@ a:hover {
     position: relative;
     z-index: 2;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        letter-spacing 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        letter-spacing 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .logo-e1 {
     transform: translateX(0);
 }
+
 .logo-e2 {
     transform: translateX(0);
 }
@@ -1000,13 +1056,16 @@ body.header-scrolled .logo-space {
     width: 0;
 }
 
+body.header-scrolled .logo-e {
+    color: var(--link-color);
+}
+
 body.header-scrolled .logo-e1 {
     transform: translateX(0);
 }
 
 body.header-scrolled .logo-e2 {
     transform: translateX(-0.15em);
-    opacity: 0.85;
 }
 
 body:not(.header-scrolled) .logo-fade {
