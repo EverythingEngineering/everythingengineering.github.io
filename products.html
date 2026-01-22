@@ -5,6 +5,80 @@ title: Products
 <div class="container">
     <section class="content-section">
         <h2>Products</h2>
-        <p>No products yet.</p>
+        <div id="products-grid" class="products-grid">
+            <!-- Products will be loaded here dynamically -->
+            <p id="loading-message">Loading products...</p>
+        </div>
     </section>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // dynamic URL based on environment could be better, but fixed for now as requested
+        const productsUrl = 'https://codexfabrica.github.io/products.json';
+
+        // Helper to create card HTML
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            // Make the whole card clickable
+            card.style.cursor = 'pointer';
+            card.style.transition = 'transform 0.2s, box-shadow 0.2s';
+
+            card.onclick = function (e) {
+                // Prevent clicking if they click a specific link inside (if any)
+                if (e.target.tagName !== 'A' && e.target.parentElement.tagName !== 'A') {
+                    window.location.href = product.url;
+                }
+            };
+
+            // Optional: Add the logo if available. 
+            let logoHtml = '';
+            if (product.product_logo) {
+                logoHtml = `<div class="product-quick-links" style="margin-bottom: 10px;"><img src="${product.product_logo}" alt="${product.title} logo" style="height: 48px; width: auto;"></div>`;
+            }
+
+            const titleStyle = "margin: 0; font-size: 34px; font-weight: 400; font-family: 'Roboto', sans-serif;";
+            const taglineStyle = "font-size: 21px;";
+
+            card.innerHTML = `
+                ${logoHtml}
+                <div class="product-card-header">
+                    <h1 style="${titleStyle}">${product.title}</h1>
+                </div>
+                <p class="product-tagline" style="${taglineStyle}">${product.tagline || product.description}</p>
+            `;
+
+            return card;
+        }
+
+        fetch(productsUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const grid = document.getElementById('products-grid');
+                const loadingMsg = document.getElementById('loading-message');
+                if (loadingMsg) loadingMsg.remove();
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    grid.innerHTML = '<p>No products found.</p>';
+                    return;
+                }
+
+                data.forEach(product => {
+                    const card = createProductCard(product);
+                    grid.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                const grid = document.getElementById('products-grid');
+                // Fallback message
+                grid.innerHTML = '<p>Unable to load products from CodexFabrica. Ensure the site is published and products.json is accessible.</p>';
+            });
+    });
+</script>
