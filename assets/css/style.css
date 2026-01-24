@@ -1065,7 +1065,7 @@ body.header-scrolled .logo-e1 {
 }
 
 body.header-scrolled .logo-e2 {
-    transform: translateX(-0.15em);
+    transform: translateX(-0.4em);
 }
 
 body:not(.header-scrolled) .logo-fade {
